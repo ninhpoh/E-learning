@@ -1,0 +1,24 @@
+.formName {
+    display: flex;
+    justify-content: space-between;
+}
+
+.inputInName {
+    width: 224px;
+}
+
+.inputEmail {
+    width: 480px;
+}
+
+@media only screen and (max-width: 600px) {
+    .formName {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .inputInName {
+        width: 480px;
+    }
+
+}
