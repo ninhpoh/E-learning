@@ -49,7 +49,7 @@ function Sidebar() {
             <NavLink to="/manager/subject">Quản lý môn học</NavLink>
           </Menu.Item>
           <Menu.Item key="3" icon={<ReadOutlined />}>
-            <NavLink to="/manager/lesson">Quản lý học</NavLink>
+            <NavLink to="/manager/lesson">Quản lý bai học</NavLink>
           </Menu.Item>
         </Menu>
       </Sider>

@@ -8,7 +8,11 @@ import {
   Paper,
   IconButton,
 } from "@mui/material";
-import { ArrowDownOutlined, ArrowUpOutlined } from "@ant-design/icons";
+import {
+  ArrowDownOutlined,
+  ArrowUpOutlined,
+  FolderOpenOutlined,
+} from "@ant-design/icons";
 import { Modal, Pagination, Radio } from "antd";
 import { Edit, Delete, WarningOutlined } from "@mui/icons-material";
 import { useEffect, useState } from "react";
@@ -20,6 +24,7 @@ import {
   deleteSubject,
   type Subject,
 } from "../../../../slices/SubjectItemSlice";
+import { toast, ToastContainer } from "react-toastify";
 
 function SubjectItem({
   filterStatus,
@@ -84,6 +89,10 @@ function SubjectItem({
       dispatch(updateSubject(updated)).then(() => {
         dispatch(fetchSubjects());
       });
+      toast.success(`Chỉnh sửa thành công!`, {
+        position: "top-right",
+        autoClose: 3000,
+      });
     }
     setIsEdit(false);
   };
@@ -118,6 +127,7 @@ function SubjectItem({
 
   return (
     <div>
+      <ToastContainer />
       <TableContainer component={Paper}>
         <Table>
           <TableHead>
@@ -177,8 +187,9 @@ function SubjectItem({
         </Table>
       </TableContainer>
       {paginatedSubjects.length == 0 ? (
-        <div className="flex justify-center mt-5">
-          
+        <div className="flex flex-col justify-center items-center mt-5">
+          <FolderOpenOutlined className="text-7xl" />
+          <p className="">Chưa có môn học nào</p>
         </div>
       ) : (
         <div className="flex justify-center mt-5">

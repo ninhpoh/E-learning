@@ -27,7 +27,7 @@ export const registerUser = createAsyncThunk<
   { rejectValue: string }
 >("login/registerUser", async (userData, { rejectWithValue }) => {
   try {
-    
+
     const existingUsers = await axios.get("http://localhost:3000/users");
 
     const emailExists = existingUsers.data.some(

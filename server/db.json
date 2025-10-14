@@ -15,6 +15,86 @@
       "password": "12345678"
     }
   ],
-  "subjects": [],
-  "lessons": []
+  "subjects": [
+    {
+      "id": "f015",
+      "title": "csa",
+      "status": false,
+      "createdAt": "2025-10-13T12:06:11.278Z"
+    },
+    {
+      "id": "08cf",
+      "title": "CSS",
+      "status": true,
+      "createdAt": "2025-10-13T12:06:20.981Z"
+    },
+    {
+      "id": "fda3",
+      "title": "JS node",
+      "status": false,
+      "createdAt": "2025-10-13T12:06:31.726Z"
+    },
+    {
+      "id": "5119",
+      "title": "11111",
+      "status": true,
+      "createdAt": "2025-10-13T12:06:46.407Z"
+    },
+    {
+      "id": "8841",
+      "title": "asdfg",
+      "status": true,
+      "createdAt": "2025-10-13T12:06:54.670Z"
+    },
+    {
+      "id": "5345",
+      "title": "qweqweqw",
+      "status": false,
+      "createdAt": "2025-10-13T12:07:08.855Z"
+    },
+    {
+      "id": "2995",
+      "title": "xzczxcxz",
+      "status": true,
+      "createdAt": "2025-10-13T12:07:13.896Z"
+    },
+    {
+      "id": "c21e",
+      "title": "csawdqwa",
+      "status": true,
+      "createdAt": "2025-10-13T12:07:23.422Z"
+    },
+    {
+      "id": "d26a",
+      "title": "dasdxzcz2222",
+      "status": false,
+      "createdAt": "2025-10-13T12:07:30.926Z"
+    },
+    {
+      "id": "4fd0",
+      "title": "adsada",
+      "status": true,
+      "createdAt": "2025-10-13T12:07:35.918Z"
+    }
+  ],
+  "lessons": [
+    {
+      "id": "075a",
+      "title": "a",
+      "subject": "CSS",
+      "duration": 45,
+      "status": true,
+      "createdAt": "2025-10-14T06:26:40.557Z",
+      "completed": false
+    },
+    {
+      "id": "6d30",
+      "title": "a",
+      "subject": "11111",
+      "duration": 45,
+      "status": true,
+      "createdAt": "2025-10-14T06:26:48.653Z",
+      "completed": false
+    }
+  ]
 }
