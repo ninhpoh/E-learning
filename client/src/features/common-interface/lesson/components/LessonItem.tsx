@@ -1,4 +1,15 @@
-import { Table, Checkbox, Button, Tooltip, Pagination } from "antd";
+import {
+  Table,
+  Checkbox,
+  Button,
+  Tooltip,
+  Pagination,
+  Modal,
+  Input,
+  Select,
+  Radio,
+  message,
+} from "antd";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
@@ -6,9 +17,12 @@ import type { AppDispatch, RootState } from "../../../../stores";
 import {
   fetchLessons,
   deleteLesson,
-  type Lesson,
   updateLesson,
+  type Lesson,
 } from "../../../../slices/LessonSlice";
+import axios from "axios";
+
+const { Option } = Select;
 
 function LessonItem({
   filterSubject,
@@ -23,8 +37,16 @@ function LessonItem({
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 8;
 
+  const [subjects, setSubjects] = useState<{ id: string; title: string }[]>([]);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [editingLesson, setEditingLesson] = useState<Lesson | null>(null);
+
   useEffect(() => {
     dispatch(fetchLessons());
+    axios.get("http://localhost:3000/subject").then((res) => {
+      const activeSubjects = res.data.filter((s: any) => s.status);
+      setSubjects(activeSubjects);
+    });
   }, [dispatch]);
 
   const filteredLessons = lessons
@@ -46,6 +68,25 @@ function LessonItem({
   const handleDelete = (id: string) => {
     dispatch(deleteLesson(id)).then(() => {
       dispatch(fetchLessons());
+    });
+  };
+
+  const showEditModal = (lesson: Lesson) => {
+    setEditingLesson(lesson);
+    setIsEditModalOpen(true);
+  };
+
+  const handleEditCancel = () => {
+    setIsEditModalOpen(false);
+    setEditingLesson(null);
+  };
+
+  const handleEditSave = () => {
+    if (!editingLesson) return;
+    dispatch(updateLesson(editingLesson)).then(() => {
+      dispatch(fetchLessons());
+      message.success("Cập nhật bài học thành công");
+      handleEditCancel();
     });
   };
 
@@ -92,7 +133,11 @@ function LessonItem({
       render: (_: unknown, record: Lesson) => (
         <div className="flex gap-2">
           <Tooltip title="Chỉnh sửa">
-            <Button icon={<EditOutlined />} type="default" />
+            <Button
+              icon={<EditOutlined />}
+              type="default"
+              onClick={() => showEditModal(record)}
+            />
           </Tooltip>
           <Tooltip title="Xóa">
             <Button
@@ -124,6 +169,72 @@ function LessonItem({
           onChange={(page) => setCurrentPage(page)}
         />
       </div>
+
+      {/* Modal chỉnh sửa */}
+      <Modal
+        title="Chỉnh sửa bài học"
+        open={isEditModalOpen}
+        onOk={handleEditSave}
+        onCancel={handleEditCancel}
+        okText="Cập nhật"
+        cancelText="Hủy"
+      >
+        {editingLesson && (
+          <div className="space-y-4">
+            <div>
+              <p>Tên bài học</p>
+              <Input
+                value={editingLesson.title}
+                onChange={(e) =>
+                  setEditingLesson({ ...editingLesson, title: e.target.value })
+                }
+              />
+            </div>
+            <div>
+              <p>Môn học</p>
+              <Select
+                value={editingLesson.subject}
+                onChange={(value) =>
+                  setEditingLesson({ ...editingLesson, subject: value })
+                }
+                style={{ width: "100%" }}
+              >
+                {subjects.map((subject) => (
+                  <Option key={subject.id} value={subject.title}>
+                    {subject.title}
+                  </Option>
+                ))}
+              </Select>
+            </div>
+            <div>
+              <p>Thời gian học (phút)</p>
+              <Input
+                type="number"
+                value={editingLesson.duration}
+                onChange={(e) =>
+                  setEditingLesson({
+                    ...editingLesson,
+                    duration: Number(e.target.value),
+                  })
+                }
+              />
+            </div>
+            <div>
+              <p>Trạng thái</p>
+              <Radio.Group
+                options={[
+                  { label: "Hoàn thành", value: true },
+                  { label: "Chưa hoàn thành", value: false },
+                ]}
+                value={editingLesson.status}
+                onChange={(e) =>
+                  setEditingLesson({ ...editingLesson, status: e.target.value })
+                }
+              />
+            </div>
+          </div>
+        )}
+      </Modal>
     </>
   );
 }
